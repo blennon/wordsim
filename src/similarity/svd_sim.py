@@ -4,6 +4,7 @@ Created on Jul 1, 2012
 @author: bill
 '''
 import sys
+sys.path.append('../')
 import numpy as np
 from scipy.sparse.linalg import svds
 import cPickle as pickle
@@ -52,18 +53,35 @@ class SVDSim(Similarity):
         v = []
         for ind,sim in zip(sort_index,sims[sort_index]):
             v.append((self.lex[ind],sim))
-        print v
+
         return v
         
     @staticmethod
     def _norm_mat(mat):
         norm = (mat**2).sum(axis=1)**.5
         return mat / norm[...,None]
-        
+
+
+def print_query(q_list):
+    '''print the query results nicely'''
+    print '='*50
+    print 'Query results for: %s' % q_list[0][0]
+    for q in q_list[1:]:
+        print q[0], q[1]
+    print '='*50
+    print ''
+
 if __name__ == '__main__':
-    NO = pickle.load(open('/var/wordsim/preprocessed_7.2.12/ngram_occurs.p','rb'))
+
+    print 'loading data...'
+    NO = pickle.load(open(sys.argv[1],'rb'))
     L = NO.lex
     del sys.modules['lexicon']
-    S = SVDSim(NO.get_occurs(concat=True),L,d=100)
-    S.query('is',6)
-        
+
+    print 'transforming data...'
+    S = SVDSim(NO.get_occurs(concat=True),L,d=200)
+
+    print 'Ready for queries.'
+    while True:
+        q = raw_input('enter word to query for:')
+        print_query(S.query(q,5))
