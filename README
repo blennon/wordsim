@@ -1,0 +1,17 @@
+The goal of this project is to generate word vectors where the distance
+between two vectors is a measure of their semantic or conceptual similarity.
+
+The basic recipe that has been used it to create co-occurrence matrices of
+bigrams then use this to create a probability matrix.  This is generally a 
+large sparse matrix.  A word vector consists of its co-occurrences with other
+words (or conditional probability).  These vectors are then transformed into 
+a lower dimensional space (SVD,PCA,SGE,etc) with the hope of preserving the 
+important structure between words.  These vectors are then dense and Euclidean
+distance measures can be applied.
+
+In this project, I will expand the bigram co-occurrences to be any ngrams.
+Co-occurrences will be counted between words up to any distance 'd' apart,
+e.g. d = [-2,-1,1,2].  Each of these forms a co-occurrence matrix.  These
+matrices will be concatenated horizontally.  SVD,PCA,etc will be performed to
+reduce the dimensionality.  This should hopefully lead to better vectors
+representing the meaning and similarity of words.
