@@ -105,11 +105,25 @@ class NgramOccurs(object):
 
 
 if __name__ == '__main__':
-    L = Lexicon('/var/wordsim/written-lexicon.txt',5000,5)
-    O = NgramOccurs('/var/wordsim/written-trigrams-freq.txt',1,L)
-    O.occur()
-    pickle.dump(O,open('/var/wordsim/preprocessed_7.2.12/ngram_occurs.p','wb'))
-    pickle.dump(L,open('/var/wordsim/preprocessed_7.2.12/lex.p','wb'))
+    in_dir = '/home/ubuntu/ebs/data/wordsim/anc/'
+    out_dir = in_dir + 'preprocessed_7.2.12/'
+    try:
+        os.makedirs(out_dir)
+    except:
+        pass
 
+    print 'building lexicon...'
+    L = Lexicon(in_dir+'written-lexicon.txt',50000,5)
+    O = NgramOccurs(in_dir+'written-trigrams-freq.txt',2,L)
+    
+    print 'counting co-occurrences...'
+    O.occur()
+    print O.occurs
+
+    print 'pickling data...'
+    pickle.dump(O,open(out_dir+'ngram_occurs.p','wb'))
+    pickle.dump(L,open(out_dir+'lex.p','wb'))
+
+    print 'done.'
 
     

@@ -37,8 +37,13 @@ class Lexicon(object):
             d[word] = count
         sorted_d = sorted(d.iteritems(), key=operator.itemgetter(1))
         sorted_d.reverse()
-        
-        return [sorted_d[i][0] for i in xrange(self.max_words)]
+
+        if len(d) < self.max_words:
+            n = len(d)
+        else:
+            n = self.max_words
+
+        return [sorted_d[i][0] for i in xrange(n)]
     
     def build_index(self):
         '''build word-to-int and int-to-word dicts'''
