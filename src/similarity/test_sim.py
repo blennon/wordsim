@@ -17,6 +17,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         raise Exception('Two arguments needed: location of pickled data and dimension')
         
+    print 'testing with data from %s using %s dimensions' % (sys.argv[1],sys.argv[2])
     print 'loading data...'
     NO = pickle.load(open(sys.argv[1],'rb'))
     L = NO.lex

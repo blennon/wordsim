@@ -1,4 +1,4 @@
-class Similarity(object):
+class AbstractSimilarity(object):
     '''
     an interface class
     

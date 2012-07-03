@@ -6,9 +6,10 @@ Created on Jul 1, 2012
 import sys
 sys.path.append('../')
 from sklearn.decomposition import RandomizedPCA as PCA
-from similarity import SVDSim
+from similarity import *
+from data_preprocess import *
 
-class PCASim(SVDSim):
+class PCASim(Similarity):
 
     def transform_data(self, occurs, d):
         '''
