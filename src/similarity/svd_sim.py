@@ -22,5 +22,7 @@ class SVDSim(Similarity):
         '''
         probs = counts_to_probs(occurs)
         P,D,Qt = svds(occurs,d)
-        return SVDSim._norm_mat(P*D)
-
+        if self.norm_ss:
+            return SVDSim._norm_mat(P*D)
+        else:
+            return P*D

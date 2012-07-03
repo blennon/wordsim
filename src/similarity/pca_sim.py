@@ -6,6 +6,7 @@ Created on Jul 1, 2012
 import sys
 sys.path.append('../')
 from sklearn.decomposition import RandomizedPCA as PCA
+from sklearn import preprocessing
 from similarity import *
 from data_preprocess import *
 
@@ -20,4 +21,8 @@ class PCASim(Similarity):
         pca = PCA(n_components=d)
         probs = counts_to_probs(occurs).tocsr()
         pca_mat = pca.fit_transform(probs)
-        return SVDSim._norm_mat(pca_mat)
+        
+        if self.norm_ss:
+            return SVDSim._norm_mat(pca_mat)
+        else:
+            return pca_mat

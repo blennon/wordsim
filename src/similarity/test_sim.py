@@ -24,11 +24,11 @@ if __name__ == '__main__':
     #del sys.modules['lexicon']
 
     print 'transforming data...'
-    S = SVDSim(NO.get_occurs(concat=True),L,d=int(sys.argv[2]))
+    S = SVDSim(NO.get_occurs(concat=True),L,d=int(sys.argv[2]),norm_ss=True)
 
     print 'Ready for queries.'
     while True:
         q = raw_input('enter word to query for: ')
-        results = S.query(q,5)
+        results = S.query(q,5,'dot')
         if results is not None:
             print_query(results)
