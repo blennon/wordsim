@@ -61,27 +61,3 @@ class SVDSim(Similarity):
         norm = (mat**2).sum(axis=1)**.5
         return mat / norm[...,None]
 
-
-def print_query(q_list):
-    '''print the query results nicely'''
-    print '='*50
-    print 'Query results for: %s' % q_list[0][0]
-    for q in q_list[1:]:
-        print q[0], q[1]
-    print '='*50
-    print ''
-
-if __name__ == '__main__':
-
-    print 'loading data...'
-    NO = pickle.load(open(sys.argv[1],'rb'))
-    L = NO.lex
-    del sys.modules['lexicon']
-
-    print 'transforming data...'
-    S = SVDSim(NO.get_occurs(concat=True),L,d=200)
-
-    print 'Ready for queries.'
-    while True:
-        q = raw_input('enter word to query for:')
-        print_query(S.query(q,5))
