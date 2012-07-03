@@ -16,4 +16,12 @@ def counts_to_probs(count_mat):
     
     return sp.dot(count_mat,diag)
 
-    
+def prune_counts(counts):
+    pass
+
+def prune_probs(probs):
+    pass
+
+def prune_by_MI():
+    'prune by mutual information'
+    pass
