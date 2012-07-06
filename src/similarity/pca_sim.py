@@ -23,6 +23,6 @@ class PCASim(Similarity):
         pca_mat = pca.fit_transform(probs)
         
         if self.norm_ss:
-            return SVDSim._norm_mat(pca_mat)
+            return Similarity._norm_mat(pca_mat)
         else:
             return pca_mat
