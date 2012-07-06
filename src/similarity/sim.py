@@ -12,6 +12,7 @@ from data_preprocess import *
 sys.modules['lexicon'] = lexicon
 from similarity import *
 
+
 class Similarity(AbstractSimilarity):
     
     def __init__(self, occurs, lexicon, d=200, norm_ss=True):
@@ -36,17 +37,35 @@ class Similarity(AbstractSimilarity):
             print 'Need either a string or int as input'
             return
         
-        vec = self.SS[ind,:]
-        sims, sort_index = self.order_similarity(vec, N, metric)
-
-        v = []
-        for ind,sim in zip(sort_index,sims[sort_index]):
-            v.append((self.lex[ind],sim))
+        return self.order_similarity(self.SS[ind,:], N, metric)
+        
+    def phrase_query(self, phrase, N, metric='dot'):
+        '''
+        return results of a multiword query by adding all the vectors for each 
+        word up and normalizing
+        '''
+        if not isinstance(phrase,str):
+            raise Exception("Input must be a string")
+        v = None
+        for w in phrase.strip().split(' '):
+            try:
+                i = self.lex[w]
+            except KeyError:
+                continue
+            if v is None:
+                v = self.SS[i,:].copy()
+            else:
+                v += self.SS[i,:]
+                
+        if v is None:
+            print 'None of the words in %s are known' % (phrase)
+        else:
+            return self.order_similarity(v/np.linalg.norm(v), N, metric)
             
-        return v
-    
     def order_similarity(self, vec, N, metric):
-        '''return a list of similarity values and their indices in the SimSpace'''
+        '''
+        return a list of similarity values and their indices in the SimSpace
+        '''
         if metric == 'dot':
             sims = np.dot(self.SS,vec)
             sort_index = np.argsort(sims)[::-1][0:N] #descend order, N of them
@@ -56,13 +75,16 @@ class Similarity(AbstractSimilarity):
         else:
             raise Exception('metric must be either euclidean or dot')
         
-        return sims, sort_index
+        v = []
+        for ind,sim in zip(sort_index,sims[sort_index]):
+            v.append((self.lex[ind],sim))     
+        return v
         
     @staticmethod
     def euclid_dist(mat,vec):
         '''
-        computes the cos distance between 'vec' and each row
-        in 'mat' (smaller is better)
+        computes the cos distance between 'vec' and each row in 'mat' (smaller 
+        is better)
         '''
         diff = mat - vec
         return (diff**2).sum(axis=1)**.5
