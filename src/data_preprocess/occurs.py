@@ -98,23 +98,22 @@ class NgramOccurs(object):
         return a single sparse matrix with all of the sparse
         co-occur matrices concatenated horizonally
         '''
-        inds = list(np.arange(-len(occurs)/2,len(occurs)/2+1))
-        inds.remove(0)
+        inds = sorted([i for i in occurs.iterkeys()])
         mats = [occurs[i].tocoo() for i in inds]
         return hstack(mats)
 
 
 if __name__ == '__main__':
-    in_dir = '/home/ubuntu/ebs/data/wordsim/anc/'
-    out_dir = in_dir + 'preprocessed_7.2.12/'
+    in_dir = '/var/wordsim/'
+    out_dir = in_dir + '10000_bigrams/'
     try:
         os.makedirs(out_dir)
     except:
         pass
 
     print 'building lexicon...'
-    L = Lexicon(in_dir+'written-lexicon.txt',50000,5)
-    O = NgramOccurs(in_dir+'written-trigrams-freq.txt',2,L)
+    L = Lexicon(in_dir+'written-lexicon.txt',10000,5)
+    O = NgramOccurs(in_dir+'written-trigrams-freq.txt',1,L)
     
     print 'counting co-occurrences...'
     O.occur()
