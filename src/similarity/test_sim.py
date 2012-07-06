@@ -3,11 +3,11 @@ sys.path.append('../')
 from similarity import *
 from data_preprocess import *
 
-def print_query(q_list):
+def print_query(query, q_list):
     '''print the query results nicely'''
     print '='*50
-    print 'Query results for: %s\n' % q_list[0][0]
-    for q in q_list[1:]:
+    print 'Query results for: %s\n' % query
+    for q in q_list:
         print q[0], q[1]
     print '='*50
     print ''
@@ -29,6 +29,6 @@ if __name__ == '__main__':
     print 'Ready for queries.'
     while True:
         q = raw_input('enter word to query for: ')
-        results = S.query(q,5,'dot')
+        results = S.phrase_query(q,6,'dot')
         if results is not None:
-            print_query(results)
+            print_query(q,results)
