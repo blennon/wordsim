@@ -8,42 +8,51 @@ import operator
 
 class Lexicon(object):
     '''
-    builds the lexicon from text file on disk
+    build or load lexicon from file
     '''
-
-    def __init__(self, lex_file, max_words, min_count):
+       
+    def load_lex(self, lex_file, max_words=None, delim=None):
         '''
+        load lexicon from disk.  formatted text files as 'index\tcount'
+        '''
+        w2i, i2w = {}, {}
+        for l in open(lex_file):
+            i, w = l.strip().split(delim)
+            i = int(i)
+            if max_words is not None:
+                if i >= max_words:
+                    break
+            w2i[w] = i
+            i2w[i] = w
+        self.w2i, self.i2w =  w2i, i2w
+    
+    def build_lex(self, lex_file, max_words, min_count):
+        '''
+        builds the lexicon of the top max_words about min_count threshold.
+
         lex_file: location of text file on disk with lexicon
-        max_words: maximum number of words in lexicon
         min_count: minimum number of times the words must have
                    appeared in the lexicon
         '''
-        self.lex_file = lex_file
-        self.max_words = max_words
-        self.min_count = min_count
-        self.lex = self.build_lex()
-        self.w2i, self.i2w = self.build_index()
-    
-    def build_lex(self):
-        '''returns a list of the top N most frequent words'''
-        f = open(self.lex_file,'r')
+        f = open(lex_file,'r')
         f.readline()
         d = {}
         for l in f:
             word,count = l.strip().split(' ')
             count = int(count)
-            if count < self.min_count: 
+            if count < min_count: 
                 continue
             d[word] = count
         sorted_d = sorted(d.iteritems(), key=operator.itemgetter(1))
         sorted_d.reverse()
 
-        if len(d) < self.max_words:
+        if len(d) < max_words:
             n = len(d)
         else:
-            n = self.max_words
+            n = max_words
 
-        return [sorted_d[i][0] for i in xrange(n)]
+        self.lex = [sorted_d[i][0] for i in xrange(n)]
+        self.build_index()
     
     def build_index(self):
         '''build word-to-int and int-to-word dicts'''
@@ -53,7 +62,7 @@ class Lexicon(object):
             w2i[w] = i
             i2w[i] = w
             i += 1
-        return w2i, i2w
+        self.w2i, self.i2w =  w2i, i2w
     
     def __len__(self):
         return self.max_words
@@ -72,4 +81,7 @@ class Lexicon(object):
         
 
 if __name__ == '__main__':
-    L = Lexicon('/var/wordsim/written-lexicon.txt',10,5)
+    L = Lexicon()
+    #L.build_lex('/var/wordsim/written-lexicon.txt',10,5)
+    L.load_lex('/var/wordsim/confab_occurs/wordlist10k75M.txt',5)
+    print L[3]
