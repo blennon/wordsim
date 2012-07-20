@@ -112,7 +112,8 @@ if __name__ == '__main__':
         pass
 
     print 'building lexicon...'
-    L = Lexicon(in_dir+'written-lexicon.txt',10000,5)
+    L = Lexicon()
+    L.build_lex(in_dir+'written-lexicon.txt',10000,5)
     O = NgramOccurs(in_dir+'written-trigrams-freq.txt',1,L)
     
     print 'counting co-occurrences...'
