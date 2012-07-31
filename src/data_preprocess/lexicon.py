@@ -63,6 +63,10 @@ class Lexicon(object):
             i2w[i] = w
             i += 1
         self.w2i, self.i2w =  w2i, i2w
+        
+    def get_vocab(self):
+        '''return a list of the words in the lexicon'''
+        return [self.i2w[i] for i in self.i2w.iterkeys()]
     
     def __len__(self):
         return self.max_words
