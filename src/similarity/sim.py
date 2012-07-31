@@ -80,6 +80,10 @@ class Similarity(AbstractSimilarity):
             v.append((self.lex[ind],sim))     
         return v
         
+    def get_data(self):
+        '''return the vectors in similarity space'''
+        return self.SS
+    
     @staticmethod
     def euclid_dist(mat,vec):
         '''
