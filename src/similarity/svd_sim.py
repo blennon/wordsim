@@ -10,7 +10,7 @@ from scipy.sparse.linalg import svds
 #from sparsesvd import sparsesvd as svds
 import cPickle as pickle
 from data_preprocess import *
-sys.modules['lexicon'] = lexicon
+#sys.modules['lexicon'] = lexicon
 from similarity import *
 
 class SVDSim(Similarity):
