@@ -21,7 +21,6 @@ if __name__ == '__main__':
     print 'loading data...'
     NO = pickle.load(open(sys.argv[1],'rb'))
     L = NO.lex
-    #del sys.modules['lexicon']
 
     print 'transforming data...'
     S = SVDSim(NO.get_occurs(concat=True),L,d=int(sys.argv[2]),norm_ss=True)
