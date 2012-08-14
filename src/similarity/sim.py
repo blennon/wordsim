@@ -100,7 +100,7 @@ class Similarity(AbstractSimilarity):
             if np.isnan(mat).any():
                 raise Exception('NaNs detected in matrix to be normalized')
         norm = (mat**2).sum(axis=1)**.5
-        mat = mat / norm[...,None]
+        mat /= mat[norm>0,:] / norm[norm>0][...,None]
         if nan_check:
             if np.isnan(mat).any():
                 raise Exception('NaNs detected in normalized matrix')
