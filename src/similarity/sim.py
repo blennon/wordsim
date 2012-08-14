@@ -9,7 +9,7 @@ import numpy as np
 from scipy.sparse.linalg import svds
 import cPickle as pickle
 from data_preprocess import *
-sys.modules['lexicon'] = lexicon
+#sys.modules['lexicon'] = lexicon
 from similarity import *
 
 
@@ -87,7 +87,7 @@ class Similarity(AbstractSimilarity):
     @staticmethod
     def euclid_dist(mat,vec):
         '''
-        computes the cos distance between 'vec' and each row in 'mat' (smaller 
+        computes the eucl distance between 'vec' and each row in 'mat' (smaller 
         is better)
         '''
         diff = mat - vec
