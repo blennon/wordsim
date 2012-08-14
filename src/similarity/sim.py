@@ -94,9 +94,16 @@ class Similarity(AbstractSimilarity):
         return (diff**2).sum(axis=1)**.5
     
     @staticmethod
-    def _norm_mat(mat):
+    def _norm_mat(mat, nan_check=True):
         '''normalizes each row in 'mat' by their l2 norm'''
+        if nan_check:
+            if np.isnan(mat).any():
+                raise Exception('NaNs detected in matrix to be normalized')
         norm = (mat**2).sum(axis=1)**.5
-        return mat / norm[...,None]
+        mat = mat / norm[...,None]
+        if nan_check:
+            if np.isnan(mat).any():
+                raise Exception('NaNs detected in normalized matrix')
+        return mat
 
 
