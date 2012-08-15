@@ -34,5 +34,16 @@ class Occurs(object):
     def get_occurs(self):
         return self.occurs
         
-    def save_occurs(self,outfile):
-        mmwrite(outfile,self.occurs)
+    def save_occurs(self,outfile,format='mm'):
+        '''save the occurs to disk'''
+        if format == 'mm':
+            mmwrite(outfile,self.occurs)
+        elif format == 'graphlab':
+            f = open(outfile,'w')
+            occurs = self.occurs.tocoo()
+            for i in range(occurs.row.shape[0]):
+                # GL likes 1-indexing
+                f.write('%s %s  %s\n' % (occurs.row[i]+1,occurs.col[i]+1,occurs.data[i]))
+            f.close()
+        else:
+            raise Exception('format must be mm or graphlab')
