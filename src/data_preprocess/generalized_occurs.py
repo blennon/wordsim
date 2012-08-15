@@ -24,7 +24,7 @@ class Occurs(object):
         if header: 
             f.readline()
         for l in f:
-            l = l.strip().split('\t')
+            l = l.strip().split(delim)
             token1, token2 = l[token1_column], l[token2_column]
             if token_as_int:
                 token1, token2 = int(token1), int(token2)

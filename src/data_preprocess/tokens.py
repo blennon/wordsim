@@ -26,9 +26,12 @@ class Tokens(object):
             token = l[token_column]
             if token_as_int:
                 token = int(token)
-            self.tokens2ids[token] = i
-            self.ids2tokens[i] = token
-            i += 1
+            try:
+                self.tokens2ids[token]
+            except KeyError:
+                self.tokens2ids[token] = i
+                self.ids2tokens[i] = token
+                i += 1
     
     def token2id(self, token):
         return self.tokens2ids[token]
@@ -40,6 +43,14 @@ class Tokens(object):
         f = open(outfile,'w')
         for token,id in self.tokens2ids.iteritems():
             f.write('%s%s%s\n' % (token,delim,id))
+    
+    def load_tokens_flat(self, token_f, delim='\t'):
+        self.tokens2ids = {}
+        self.ids2tokens = {}
+        for l in open(token_f):
+            token,id = l.strip().split(delim)
+            self.tokens2id[token] = id
+            self.ids2tokens[id] = token
         
     def token_count(self):
         return len(self.tokens2ids)
