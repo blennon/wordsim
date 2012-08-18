@@ -58,6 +58,9 @@ class Tokens(object):
     def token_count(self):
         return len(self.tokens2ids)
     
+    def get_token_list(self):
+        return self.tokens2ids.keys()
+    
     
 class ZipsTokens(Tokens):
     
