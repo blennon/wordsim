@@ -44,11 +44,14 @@ class Tokens(object):
         for token,id in self.tokens2ids.iteritems():
             f.write('%s%s%s\n' % (token,delim,id))
     
-    def load_tokens_flat(self, token_f, delim='\t'):
+    def load_tokens_flat(self, token_f, delim='\t', token_int=True):
         self.tokens2ids = {}
         self.ids2tokens = {}
         for l in open(token_f):
             token,id = l.strip().split(delim)
+            if token_int:
+                token = int(token)
+            id = int(id)
             self.tokens2ids[token] = id
             self.ids2tokens[id] = token
         
