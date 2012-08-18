@@ -49,7 +49,7 @@ class Tokens(object):
         self.ids2tokens = {}
         for l in open(token_f):
             token,id = l.strip().split(delim)
-            self.tokens2id[token] = id
+            self.tokens2ids[token] = id
             self.ids2tokens[id] = token
         
     def token_count(self):
