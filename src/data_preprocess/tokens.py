@@ -41,7 +41,7 @@ class Tokens(object):
     
     def save(self, outfile, delim='\t'):
         f = open(outfile,'w')
-        for token,id in self.tokens2ids.iteritems():
+        for id,token in self.ids2tokens.iteritems():
             f.write('%s%s%s\n' % (token,delim,id))
     
     def load_tokens_flat(self, token_f, delim='\t', token_int=True):
@@ -57,3 +57,20 @@ class Tokens(object):
         
     def token_count(self):
         return len(self.tokens2ids)
+    
+    
+class ZipsTokens(Tokens):
+    
+    def __init__(self):
+        Z = Zips()
+        self.tokenize_zips(Z)
+        del Z
+        
+    def tokenize_zips(self,Zips):
+        self.tokens2ids = {}
+        self.ids2tokens = {}
+        i=0
+        for z in Zips.zips.iterkeys():
+            self.tokens2ids[z] = i
+            self.ids2tokens[i] = z
+            i += 1   
