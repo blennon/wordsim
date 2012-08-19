@@ -31,5 +31,5 @@ if __name__ == "__main__":
     I = np.asarray(Image.open('/home/bill/python_packages/PIL/Images/lena.ppm'))
     I = np.mean(I,axis=2) # gray scale
     print I.shape
-    jets = GJ.image2jets(I, 16)
+    jets = GJ.image2jets(I, 36)
     print jets.shape

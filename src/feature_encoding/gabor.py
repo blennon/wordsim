@@ -61,7 +61,11 @@ def gabor_filterbank(n_ang,px_scales,px_width):
     return fb
     
 if __name__ == "__main__":
-    '''testing and plotting of filters'''
+    '''
+    testing and plotting of filters
+    
+    Run this to display filters and their effect on an image
+    '''
     
     # filterbank parameters
     n_ang = 4 # number of angles
